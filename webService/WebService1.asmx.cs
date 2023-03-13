@@ -25,15 +25,15 @@ namespace webService
             return JsonConvert.SerializeObject(o);
         }
 
-
         static string TokenGenerator(string name, string password)
         {
             return new PasswordHelper().MD5Encoding(name + password);
         }
 
         [WebMethod]
-        public string GetDevices(string token)
+        public string GetDevices()
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null)
             {
@@ -60,8 +60,9 @@ namespace webService
         }
 
         [WebMethod]
-        public string GetDeviceById(string token, int id)
+        public string GetDeviceById(int id)
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null)
             {
@@ -83,8 +84,9 @@ namespace webService
         }
 
         [WebMethod]
-        public string GetDevicesByStatus(string token, string status)
+        public string GetDevicesByStatus(string status)
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null)
             {
@@ -121,8 +123,9 @@ namespace webService
         }
 
         [WebMethod]
-        public string PostDevice(string token)
+        public string PostDevice()
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null || user.role != Role.Admin)
             {
@@ -147,12 +150,13 @@ namespace webService
                 """);
 
             var newDeviceId = Convert.ToInt32(resultTable.Rows[0]["Identity"].ToString());
-            return GetDeviceById(token, newDeviceId);
+            return GetDeviceById(newDeviceId);
         }
 
         [WebMethod]
-        public string DeleteDevice(string token, int id)
+        public string DeleteDevice(int id)
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null || user.role != Role.Admin)
             {
@@ -172,8 +176,9 @@ namespace webService
         }
 
         [WebMethod]
-        public string GetUsers(string token)
+        public string GetUsers()
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null || user.role != Role.Admin)
             {
@@ -186,8 +191,9 @@ namespace webService
         }
 
         [WebMethod]
-        public string DeleteUser(string token, int id)
+        public string DeleteUser(int id)
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null || user.role != Role.Admin)
             {
@@ -206,8 +212,9 @@ namespace webService
         }
 
         [WebMethod]
-        public string PostUser(string token)
+        public string PostUser()
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null || user.role != Role.Admin)
             {
@@ -238,8 +245,9 @@ namespace webService
         }
 
         [WebMethod]
-        public string PutUser(string token)
+        public string PutUser()
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User sessionUser = AuthenticationHelper.GetUser(token);
             if (sessionUser == null)
             {
@@ -274,8 +282,9 @@ namespace webService
         }
 
         [WebMethod]
-        public string GetAlerts(string token)
+        public string GetAlerts()
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null)
             {
@@ -297,8 +306,9 @@ namespace webService
         }
 
         [WebMethod]
-        public string GetAlertsByDevice(string token, int deviceId)
+        public string GetAlertsByDevice(int deviceId)
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null)
             {
@@ -323,8 +333,9 @@ namespace webService
         }
 
         [WebMethod]
-        public string PutAlertProcessingResult(string token, int alertId, string processingResult)
+        public string PutAlertProcessingResult(int alertId, string processingResult)
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null)
             {
@@ -357,8 +368,9 @@ namespace webService
         }
 
         [WebMethod]
-        public string PostAlert(string token)
+        public string PostAlert()
         {
+            var token = HttpContext.Current.Request.Headers["token"];
             User user = AuthenticationHelper.GetUser(token);
             if (user == null || user.role != Role.Admin)
             {
